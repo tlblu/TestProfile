@@ -1,5 +1,5 @@
-## Test Profile Maker
+# Test Profile Maker
 
-# By Tanner Winnick
+### By Tanner Winnick
 
-# Allow users to create profiles and see all other profiles stored in the repo
+Allow users to create profiles and see all other profiles stored in the repo
