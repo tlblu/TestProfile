@@ -1,2 +1,5 @@
-# TestProfile
-tester profile maker logs for public access
+## Test Profile Maker
+
+# By Tanner Winnick
+
+# Allow users to create profiles and see all other profiles stored in the repo
