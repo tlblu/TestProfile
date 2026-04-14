@@ -99,7 +99,7 @@
         const color = colorForId(p.id);
         const age = getAge(p.birthday);
         const created = new Date(p.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        return `
+        return
           <div class="profile-card">
             <div class="profile-card-header">
               <div class="avatar avatar-${color}">${initials(p.name)}</div>
@@ -126,7 +126,7 @@
                 <span class="profile-value mono">PROFILE_${p.id}.json</span>
               </div>
             </div>
-          </div>`;
+          </div>;
       }).join('');
     }
 

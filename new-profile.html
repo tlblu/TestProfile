@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Profile — Profile Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <nav class="topnav">
+      <a href="index.html" class="nav-back">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Home
+      </a>
+      <span class="nav-title">New  Profile</span>
+    </nav>
+
+    <div class="card form-card">
+      <div class="card-header">
+        <div class="avatar-placeholder">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h2 class="card-title">Create Profile</h2>
+          <p class="card-subtitle">Fill in the details below</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="e.g. Jane Doe" autocomplete="name" />
+        <span class="field-hint">First and last name</span>
+      </div>
+
+      <div class="form-group">
+        <label for="bday">Date of Birth</label>
+        <input type="date" id="bday" />
+        <span class="field-hint">Your birthday</span>
+      </div>
+
+      <div class="form-group">
+        <label>Profile ID</label>
+        <div class="id-preview" id="id-preview">Will be assigned on save</div>
+        <span class="field-hint">Automatically assigned by the system</span>
+      </div>
+
+      <div id="form-error" class="form-error hidden"></div>
+      <div id="form-success" class="form-success hidden"></div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="save-btn" onclick="saveProfile()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V5l3-3h7a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.5"/><path d="M5 2v4h6V2M6 9v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Save Profile
+        </button>
+        <a href="profiles.html" class="btn btn-ghost">View All Profiles</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="profiles.js"></script>
+  <script>
+    function pad(n) {
+      return String(n).padStart(7, '0');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const profiles = loadProfiles();
+      const nextId = profiles.length + 1;
+      document.getElementById('id-preview').textContent = pad(nextId);
+    });
+
+    function saveProfile() {
+      const name = document.getElementById('fullname').value.trim();
+      const bday = document.getElementById('bday').value;
+      const errEl = document.getElementById('form-error');
+      const succEl = document.getElementById('form-success');
+
+      errEl.classList.add('hidden');
+      succEl.classList.add('hidden');
+
+      if (!name) {
+        errEl.textContent = 'Please enter a full name.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (!bday) {
+        errEl.textContent = 'Please select a date of birth.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      const profiles = loadProfiles();
+      const id = profiles.length + 1;
+      const paddedId = pad(id);
+
+      const profile = {
+        id: paddedId,
+        name,
+        birthday: bday,
+        created: new Date().toISOString()
+      };
+
+      profiles.push(profile);
+      saveProfiles(profiles);
+      saveProfileFile(profile);
+
+      document.getElementById('id-preview').textContent = paddedId;
+      document.getElementById('fullname').value = '';
+      document.getElementById('bday').value = '';
+
+      succEl.innerHTML = `Profile <strong>${paddedId}</strong> created for <strong>${name}</strong>! <a href="profiles.html">View all profiles &rarr;</a>`;
+      succEl.classList.remove('hidden');
+
+      const nextId = profiles.length + 1;
+      document.getElementById('id-preview').textContent = pad(nextId);
+    }
+  </script>
+</body>
+</html>
